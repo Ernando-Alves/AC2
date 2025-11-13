@@ -7,16 +7,14 @@ bp = Blueprint("main", __name__)
 
 @bp.route("/")
 def index():
-    # 1. Captura o termo de pesquisa do URL (query parameter 'busca')
+    #Captura o termo de pesquisa (query parameter 'busca')
     termo = request.args.get("busca", "").strip()
     
     # Inicia a query com ordenação
     query = Pizza.query.order_by(Pizza.criado_em.desc())
     
     if termo:
-        # 2. Se houver um termo de pesquisa, aplica o filtro.
-        # Usa ilike (case-insensitive LIKE) e % (coringa) para buscar correspondências parciais 
-        # no nome OU nos ingredientes.
+        # Se houver um termo de pesquisa, aplica o filtro.
         query = query.filter(
             db.or_(
                 Pizza.nome.ilike(f"%{termo}%"),
@@ -62,3 +60,4 @@ def excluir(pizza_id):
     db.session.commit()
     flash(f"Pizza '{nome}' excluída.", "success")
     return redirect(url_for("main.index"))
+
