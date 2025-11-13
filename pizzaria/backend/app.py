@@ -21,6 +21,7 @@ if __name__ == "__main__":
     app = create_app()
     with app.app_context():
         # Cria as tabelas caso não existam
-        from models import Pizza  # noqa: F401
+        from models import Pizza 
         db.create_all()
     app.run(debug=True, host="127.0.0.1", port=5000)
+
